@@ -1,20 +1,154 @@
-<!doctype html>
-<html lang="en-US">
-  <head>
-    <meta http-equiv="refresh" content="0; URL=https://manuals.heftware.com/instructions.pdf">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Heftware - Manuals</title>
-    <script type="text/javascript">
-      var destination = "https://manuals.heftware.com/instructions.pdf";
-      location = destination;
-      document.location.href = destination;
-      location.replace(destination);
-      window.location.reload(destination);
-      document.location.replace(destination);
-    </script>    
-  </head>
-  <body>
-    <a href="./instructions.pdf">Instructions</a>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manuals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --card-shadow: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem 1rem 1rem;
+      text-align: center;
+    }
+    header img {
+      max-width: 120px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin: 0;
+    }
+    #filter {
+      margin: 1rem auto;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-width: 500px;
+      width: 100%;
+      display: block;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+    }
+    .manuals {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      flex: 1;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px var(--card-shadow);
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      box-shadow: 0 4px 16px var(--card-shadow);
+    }
+    .card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="./images/logotype.png" alt="Heftware Logo" />
+    <h1>Manuals</h1>
+    <input type="text" id="filter" placeholder="Search..." />
+  </header>
+  <main class="manuals" id="manuals-container"></main>
+  <footer>
+    &copy; <span id="year"></span> Heftware. All rights reserved.
+  </footer>
+
+  <script>
+    const manuals = [
+      {
+        title: "Drawer Front Connector Fixing Bracket Replacement Kit Compatible with Hettich MultiTech; Versions 4.0, 5.0",
+        image: "./images/drawer_brackets_v5.jpg",
+        pdf: "./documents/heftware_drawer_brackets_v4.pdf"
+      },
+      {
+        title: "Drawer Front Connector Fixing Bracket Replacement Kit Compatible with Hettich MultiTech; Version 6.0",
+        image: "./images/drawer_brackets_v6.jpg",
+        pdf: "./documents/heftware_drawer_brackets_v6.pdf"
+      },
+    ];
+
+    const container = document.getElementById('manuals-container');
+    const filterInput = document.getElementById('filter');
+
+    function renderManuals(filter = '') {
+      container.innerHTML = '';
+      manuals
+        .filter(manual => manual.title.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(manual => {
+          const card = document.createElement('a');
+          card.className = 'card';
+          card.href = manual.pdf;
+          card.target = '_blank';
+          card.innerHTML = `
+            <img src="${manual.image}" alt="${manual.title}" />
+            <div class="card-title">${manual.title}</div>
+          `;
+          container.appendChild(card);
+        });
+    }
+
+    filterInput.addEventListener('input', e => {
+      renderManuals(e.target.value);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderManuals();
+  </script>
+</body>
 </html>
